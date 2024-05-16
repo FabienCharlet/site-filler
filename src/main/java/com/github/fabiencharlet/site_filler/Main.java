@@ -4,6 +4,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -77,7 +78,7 @@ public class Main {
 		type(fakePerson.telephone); changeField();
 		type(fakePerson.ville); changeField();
 		type(fakePerson.rue); changeField();
-		type(fakePerson.codePostal);
+		type(fakePerson.codePostal);changeField();
 
 		submit();
 		goBack();
@@ -102,8 +103,13 @@ public class Main {
 
 	private static void submit() {
 
-		robot.keyPress(KeyEvent.VK_ENTER);
-		waitMs(600);
+		robot.mouseMove(530,648);
+		waitMs(200);
+
+		robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+		waitMs(50);
+		robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+		waitMs(2500);
 	}
 
 	private static void waitMs(final int timeMs) {
@@ -157,7 +163,7 @@ public class Main {
 		for (final String line : Files.readAllLines(Path.of("src/main/resources/villes.txt"))) {
 
 			final String[] cpVille = line.split("\\t");
-			cpVilles.put(cpVille[1], cpVille[0]);
+			cpVilles.put(cpVille[1], Strings.padStart(cpVille[0], 5, '0'));
 		}
 
 		CP_VILLES = List.copyOf(cpVilles.entrySet());
@@ -171,7 +177,7 @@ public class Main {
 
 		final int day = (int) Math.abs(Math.random() * 30) + 1;
 		final int month = (int) Math.abs(Math.random() * 12) + 1;
-		final int year = (int) Math.abs(Math.random() * 100);
+		final int year = (int) Math.abs(Math.random() * 60) + 60;
 
 		return Strings.padStart("" + day, 2, '0')
 		+ "/" + Strings.padStart("" + month, 2, '0')
