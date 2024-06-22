@@ -7,6 +7,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
@@ -53,14 +54,6 @@ public class HumanSimulator implements NativeKeyListener {
 
 		type(text);
 		changeField();
-	}
-
-	public void init() {
-
-		waitMs(500);
-		typeCombined(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
-		waitMs(200);
-
 	}
 
 	public void waitMs(final int timeMs) {
@@ -185,12 +178,21 @@ public class HumanSimulator implements NativeKeyListener {
 		robot.keyRelease(key1);
 	}
 
+
+	public void keyPress(final int key) {
+
+		System.out.println("keyPress " + key);
+		robot.keyPress(key);
+		waitMs(20);
+		robot.keyRelease(key);
+
+		waitMs(100);
+	}
+
 	public void scrollDown() {
 
 		System.out.println("Scroll down");
-		robot.keyPress(KeyEvent.VK_PAGE_DOWN);
-
-		waitMs(100);
+		keyPress(KeyEvent.VK_PAGE_DOWN);
 	}
 
 	public void scrollUp() {
@@ -204,6 +206,13 @@ public class HumanSimulator implements NativeKeyListener {
 	public void fill(final int number) {
 
 		fill("" + number);
+	}
+
+	public void launchBrowser() throws IOException {
+
+
+        Runtime.getRuntime().exec("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe  -incognito");
+
 	}
 
 

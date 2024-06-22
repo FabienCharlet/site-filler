@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import com.github.fabiencharlet.site_filler.domain.Person;
 import com.google.common.base.Strings;
@@ -16,6 +17,24 @@ public class FakeDataService {
 	private static List<String> NOMS;
 	private static List<Entry<String, String>> CP_VILLES;
 	private static List<String> RUES;
+	private static List<String> MAIL_PROVIDERS = List.of(
+			"gmail.com",
+			"yahoo.com",
+			"hotmail.com",
+			"aol.com",
+			"hotmail.fr",
+			"msn.com",
+			"yahoo.fr",
+			"wanadoo.fr",
+			"orange.fr",
+			"live.com",
+			"free.fr",
+			"outlook.com",
+			"sfr.fr",
+			"live.fr",
+			"googlemail.com",
+			"neuf.fr");
+
 
 	public FakeDataService() throws IOException {
 
@@ -47,7 +66,26 @@ public class FakeDataService {
 		final String rue = getNumeroRue() + " " + RUES.get((int) Math.abs(Math.random() * RUES.size()));
 		final Entry<String, String> cpVille = CP_VILLES.get((int) Math.abs(Math.random() * CP_VILLES.size()));
 
-		return new Person(prenom, nom, getDateNaissance(), rue, cpVille.getValue(), cpVille.getKey(), getNumeroTelephone());
+		final String mailProvider = MAIL_PROVIDERS.get((int) Math.abs(Math.random() * MAIL_PROVIDERS.size()));
+
+		final String codePostal = cpVille.getValue();
+
+		final String mailBase = switch (random(0, 3)) {
+
+			case 0 -> prenom + "." + nom;
+			case 1 -> prenom + codePostal;
+			default -> prenom.charAt(0) + nom;
+		};
+
+		return new Person(
+				prenom,
+				nom,
+				getDateNaissance(),
+				rue,
+				codePostal,
+				cpVille.getKey(),
+				getNumeroTelephone(),
+				mailBase.toLowerCase() + "@" + mailProvider);
 
 	}
 
@@ -66,6 +104,53 @@ public class FakeDataService {
 		return "" + ((int) Math.abs(Math.random() * 1000));
 	}
 
+	public static String getUuid() {
+
+		return UUID.randomUUID().toString();
+	}
+
+	public static String getRandomString(final int nbChar) {
+
+		String res = "";
+
+		for (int i = 0; i < nbChar; i++) {
+
+			res += getRandomCharDigit();
+		}
+
+		return res;
+	}
+
+	public static String getRandomDigits(final int nbChar) {
+
+		String res = "";
+
+		for (int i = 0; i < nbChar; i++) {
+
+			res += random(0, 10);
+		}
+
+		return res;
+	}
+
+
+	private static char getRandomCharDigit() {
+
+		final char random = (char) random(0, 61);
+
+		if (random < 26) {
+
+			return (char) ('a' + random);
+		}
+
+		if (random < 52) {
+
+			return (char) ('A' + (random - 26));
+		}
+
+		return (char) ('0' + (random - 52));
+	}
+
 	public static String getNumeroTelephone() {
 
 		final int first = (int) Math.abs(Math.random() * 2) + 6;
@@ -82,7 +167,7 @@ public class FakeDataService {
 		+	    Strings.padStart("" + fifth, 2, '0');
 	}
 
-	public int random(final int from, final int to) {
+	public static int random(final int from, final int to) {
 
 		final int interval = to - from;
 

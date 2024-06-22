@@ -29,7 +29,7 @@ public class Grdf {
 		GlobalScreen.addNativeKeyListener(HUMAN);
 
 		DATA_SERVICE = new FakeDataService();
-		HUMAN.init();
+
 
 		for (int i = 0; i < 1_000_000; i++) {
 
