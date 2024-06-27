@@ -40,7 +40,7 @@ public class HumanSimulator implements NativeKeyListener {
 	@Override
 	public void nativeKeyPressed(final NativeKeyEvent e) {
 
-		if (e.getKeyCode() == NativeKeyEvent.VC_PAUSE) {
+		if (e.getKeyCode() == NativeKeyEvent.VC_END) {
 
 			paused.set(!paused.get());
 
@@ -58,13 +58,13 @@ public class HumanSimulator implements NativeKeyListener {
 
 	public void waitMs(final int timeMs) {
 
-		final int waitSplitTIme = 200;
+		final int waitSplitTIme = 20;
 
 		final int nbTimes = (timeMs * debugWaitFactor) / waitSplitTIme;
 
 		if (paused.get()) {
 
-			System.out.print("Wating until pause is pressed");
+			System.out.print("Wating until END is pressed");
 		}
 
 		while (paused.get()) {
@@ -84,7 +84,7 @@ public class HumanSimulator implements NativeKeyListener {
 
 			try {
 
-				if (nbTimes > 2) {
+				if (nbTimes > 2 && (i%10==0)) {
 
 					System.out.print(" " + i);
 				}
@@ -103,7 +103,7 @@ public class HumanSimulator implements NativeKeyListener {
 	public void changeField() {
 
 		robot.keyPress(KeyEvent.VK_TAB);
-		waitMs(400);
+		waitMs(50);
 	}
 
 	public void goToUrl(final String url) {
@@ -116,7 +116,7 @@ public class HumanSimulator implements NativeKeyListener {
 		waitMs(100);
 		submitEnter();
 
-		waitMs(2_000);
+		waitMs(2_500);
 	}
 
 	public void goBack() {
@@ -157,7 +157,7 @@ public class HumanSimulator implements NativeKeyListener {
 		System.out.println("Down");
 		robot.keyPress(KeyEvent.VK_DOWN);
 
-		waitMs(100);
+		waitMs(20);
 	}
 
 	public void type(final String text) {
@@ -213,6 +213,20 @@ public class HumanSimulator implements NativeKeyListener {
 
         Runtime.getRuntime().exec("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe  -incognito");
 
+	}
+
+	public void changeField(final int repeat) {
+
+		for (int i = 0; i < repeat; i++) {
+
+			changeField();
+		}
+	}
+
+	public void closeBrowser() {
+
+		System.out.println("Closing Browser");
+		typeCombined(KeyEvent.VK_ALT, KeyEvent.VK_F4);
 	}
 
 

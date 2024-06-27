@@ -37,7 +37,7 @@ public class Newantai {
 
 		changeField();changeField();changeField();changeField();
 		type(fakePerson.nom + " " + fakePerson.prenom); changeField();
-		type(fakePerson.dateNaissance); changeField();
+		type(fakePerson.dateNaissance.toString()); changeField();
 		type(fakePerson.telephone); changeField();
 		type(fakePerson.ville); changeField();
 		type(fakePerson.rue); changeField();

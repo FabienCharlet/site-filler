@@ -1,5 +1,8 @@
 package com.github.fabiencharlet.site_filler.domain;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import lombok.ToString;
 
 @ToString
@@ -7,7 +10,7 @@ public class Person {
 
 	public String prenom;
 	public String nom;
-	public String dateNaissance;
+	public LocalDate dateNaissance;
 	public String rue;
 	public String codePostal;
 	public String ville;
@@ -17,7 +20,7 @@ public class Person {
 	public Person(
 			final String prenom,
 			final String nom,
-			final String dateNaissance,
+			final LocalDate dateNaissance,
 			final String rue,
 			final String codePostal,
 			final String ville,
@@ -37,6 +40,16 @@ public class Person {
 	public String getAddress() {
 
 		return rue + " " + codePostal + " " + ville;
+	}
+
+	public String getDateNaissance(final String dateFormat) {
+
+		return dateNaissance.format(DateTimeFormatter.ofPattern(dateFormat));
+	}
+
+	public String getTitulaireCarte() {
+
+		return prenom + " " + nom.toLowerCase();
 	}
 
 }

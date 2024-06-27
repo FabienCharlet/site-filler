@@ -3,6 +3,7 @@ package com.github.fabiencharlet.site_filler.application;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -19,20 +20,17 @@ public class FakeDataService {
 	private static List<String> RUES;
 	private static List<String> MAIL_PROVIDERS = List.of(
 			"gmail.com",
-			"yahoo.com",
 			"hotmail.com",
 			"aol.com",
 			"hotmail.fr",
 			"msn.com",
 			"yahoo.fr",
-			"wanadoo.fr",
 			"orange.fr",
 			"live.com",
 			"free.fr",
 			"outlook.com",
 			"sfr.fr",
 			"live.fr",
-			"googlemail.com",
 			"neuf.fr");
 
 
@@ -89,15 +87,11 @@ public class FakeDataService {
 
 	}
 
-	public static String getDateNaissance() {
+	public static LocalDate getDateNaissance() {
 
-		final int day = (int) Math.abs(Math.random() * 30) + 1;
-		final int month = (int) Math.abs(Math.random() * 12) + 1;
-		final int year = (int) Math.abs(Math.random() * 60) + 60;
+		final int year = 1930 + ((int) Math.abs(Math.random() * 60));
 
-		return Strings.padStart("" + day, 2, '0')
-		+ "/" + Strings.padStart("" + month, 2, '0')
-		+ "/19" +  Strings.padStart("" + year, 2, '0');
+		return LocalDate.of(year, 1, 1).plusDays(random(0, 365));
 	}
 	public static String getNumeroRue() {
 
@@ -149,6 +143,22 @@ public class FakeDataService {
 		}
 
 		return (char) ('0' + (random - 52));
+	}
+
+	public static String getNumeroTelephone06() {
+
+		final int first = 6;
+		final int second = (int) Math.abs(Math.random() * 100);
+		final int third = (int) Math.abs(Math.random() * 100);
+		final int fourth = (int) Math.abs(Math.random() * 100);
+		final int fifth = (int) Math.abs(Math.random() * 100);
+
+		return
+				Strings.padStart("" + first, 2, '0')
+        +		Strings.padStart("" + second, 2, '0')
+		+ 		Strings.padStart("" + third, 2, '0')
+		+ 		Strings.padStart("" + fourth, 2, '0')
+		+	    Strings.padStart("" + fifth, 2, '0');
 	}
 
 	public static String getNumeroTelephone() {
